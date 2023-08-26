@@ -1,0 +1,83 @@
+<!-- Վերևից ընկնում են պատահական թվեր 1-100:
+    Էն թվերը որոնք բաժանվում են 3-ի ստեղնաշարի աջ սլաքով թիվը տանել աջ, հակառակ դեպքում ձախ:
+    Արագությունը մեծանա երկու րոպեն մեկ:
+    Խաղացողն ունի 3 կյանք: -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>PLay!</title>
+        <style>
+            .main{
+                width: 500px;
+                height: 500px;
+                margin: auto;
+                background-image: url('slide_img_2.jpg');
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                position: relative;
+            }
+            #generation_area{
+                height: 50px;
+                background-color: rgba(118, 73, 221, 0.5);
+            }
+            #validation_area{
+                height: 150px;
+                background-color: rgba(228, 68, 68, 0.5);
+            }
+            #num{
+                align-self: center;
+                font-size: 50px;
+                color: white;
+                position: absolute;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="main">
+            <div id="num">0</div>
+            <div id="generation_area">
+
+            </div>
+            <div id="validation_area">
+
+            </div>
+        </div>
+        <button onclick="start()">Start</button>
+        <script>
+            const max_n = 100, condition = 3, steps_per_second = 35;
+            var num_tag = document.getElementById('num'), acceleration = 20, number;
+
+            function create_num(){
+                let generated_num = Math.random() * max_n;
+                generated_num =  Math.floor(generated_num)+1;
+                let num_obj ={
+                    value: generated_num,
+                    is_valid: !(this.value%condition),
+                    distance: 0
+                } 
+                return num_obj;
+            }
+            function move(speed){
+                number.distance += speed;
+                num_tag.style.top = String(number.distance) + 'px';
+            }
+
+
+
+            function start(){
+                number = create_num();
+                let speed = 5;
+                num_tag.innerText = number.value;
+                function go(){
+                    move(speed);
+                    if(number.distance > 500){
+                        clearInterval(process_falling);
+                        start();
+                    }
+                }
+                var process_falling = setInterval(go, 1000/steps_per_second);
+            }
+        </script>
+    </body>
+</html>
